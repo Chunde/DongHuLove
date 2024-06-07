@@ -1,33 +1,33 @@
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, session, redirect, url_for
 import pandas as pd
 import random
+import os
 
 app = Flask(__name__)
+app.secret_key = os.urandom(24)  # Random secret key for session management
 
-# Global variable to store the dataframe
-df = None
-
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def index():
-    return render_template('index.html')
+    selected_men_ids = None
+    selected_women_ids = None
 
-@app.route('/upload', methods=['POST'])
-def upload_file():
-    global df
-    file = request.files['file']
-    num_men = int(request.form['num_men'])
-    num_women = int(request.form['num_women'])
+    if request.method == 'POST':
+        if 'file' in request.files:
+            file = request.files['file']
+            if file:
+                df = pd.read_excel(file)
+                session['data'] = df.to_dict(orient='list')
+        if 'num_men' in request.form and 'num_women' in request.form:
+            num_men = int(request.form['num_men'])
+            num_women = int(request.form['num_women'])
 
-    if file:
-        df = pd.read_excel(file)
-        return process_selection(num_men, num_women)
-    return "未上传文件", 400
+        if 'data' in session:
+            df = pd.DataFrame(session['data'])
+            selected_men_ids, selected_women_ids = process_selection(df, num_men, num_women)
 
-def process_selection(num_men, num_women):
-    global df
-    if df is None:
-        return "没有可用的数据", 400
+    return render_template('index.html', selected_men_ids=selected_men_ids, selected_women_ids=selected_women_ids)
 
+def process_selection(df, num_men, num_women):
     men_ids = df[df['性别'] == '男']['编号'].tolist()
     women_ids = df[df['性别'] == '女']['编号'].tolist()
 
@@ -37,7 +37,7 @@ def process_selection(num_men, num_women):
     selected_men_ids = random.sample(men_ids, num_men)
     selected_women_ids = random.sample(women_ids, num_women)
 
-    return render_template('results.html', selected_men_ids=selected_men_ids, selected_women_ids=selected_women_ids)
+    return selected_men_ids, selected_women_ids
 
 if __name__ == '__main__':
     app.run(debug=True)

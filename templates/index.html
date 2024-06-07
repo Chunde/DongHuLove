@@ -1,21 +1,87 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>随机ID选择器</title>
+    <title>浪漫ID选择器</title>
+    <style>
+        body {
+            background-color: #ffe6e6;
+            font-family: 'Arial', sans-serif;
+            color: #800000;
+            text-align: center;
+        }
+        h1 {
+            color: #cc0000;
+            margin-top: 50px;
+        }
+        form {
+            display: inline-block;
+            background: #fff0f5;
+            padding: 20px;
+            border: 1px solid #cc0000;
+            border-radius: 10px;
+        }
+        label {
+            font-size: 18px;
+        }
+        input[type="file"], input[type="number"], input[type="submit"] {
+            display: block;
+            margin: 10px auto;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #cc0000;
+        }
+        input[type="submit"] {
+            background-color: #cc0000;
+            color: white;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #ff6666;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            font-size: 20px;
+            margin: 5px 0;
+        }
+        a {
+            color: #cc0000;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-    <h1>上传Excel并选择随机ID</h1>
-    <form action="/upload" method="post" enctype="multipart/form-data">
+    <h1>上传Excel并选择浪漫ID</h1>
+    <form action="/" method="post" enctype="multipart/form-data">
         <label for="file">上传Excel文件:</label>
         <input type="file" name="file" id="file" accept=".xlsx">
-        <br><br>
         <label for="num_men">男性数量:</label>
-        <input type="number" id="num_men" name="num_men" min="1">
-        <br><br>
+        <input type="number" id="num_men" name="num_men" min="1" value="3">
         <label for="num_women">女性数量:</label>
-        <input type="number" id="num_women" name="num_women" min="1">
-        <br><br>
+        <input type="number" id="num_women" name="num_women" min="1" value="3">
         <input type="submit" value="运行">
     </form>
+    
+    {% if selected_men_ids and selected_women_ids %}
+    <h2>选择结果</h2>
+    <h3>男性ID:</h3>
+    <ul>
+        {% for id in selected_men_ids %}
+        <li>{{ id }}</li>
+        {% endfor %}
+    </ul>
+    <h3>女性ID:</h3>
+    <ul>
+        {% for id in selected_women_ids %}
+        <li>{{ id }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
 </body>
 </html>
