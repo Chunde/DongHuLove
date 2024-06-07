@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>选择结果</title>
+</head>
+<body>
+    <h1>选择结果</h1>
+    <h2>男性ID:</h2>
+    <ul>
+        {% for id in selected_men_ids %}
+        <li>{{ id }}</li>
+        {% endfor %}
+    </ul>
+    <h2>女性ID:</h2>
+    <ul>
+        {% for id in selected_women_ids %}
+        <li>{{ id }}</li>
+        {% endfor %}
+    </ul>
+    <br>
+    <a href="/">返回上传页面</a>
+</body>
+</html>

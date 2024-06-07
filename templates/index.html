@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>随机ID选择器</title>
+</head>
+<body>
+    <h1>上传Excel并选择随机ID</h1>
+    <form action="/upload" method="post" enctype="multipart/form-data">
+        <label for="file">上传Excel文件:</label>
+        <input type="file" name="file" id="file" accept=".xlsx">
+        <br><br>
+        <label for="num_men">男性数量:</label>
+        <input type="number" id="num_men" name="num_men" min="1">
+        <br><br>
+        <label for="num_women">女性数量:</label>
+        <input type="number" id="num_women" name="num_women" min="1">
+        <br><br>
+        <input type="submit" value="运行">
+    </form>
+</body>
+</html>
