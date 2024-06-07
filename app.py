@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, session, redirect, url_for
+from flask import Flask, request, render_template, session
 import pandas as pd
 import random
 import os
@@ -11,18 +11,24 @@ def index():
     selected_men_ids = None
     selected_women_ids = None
 
+    # Initialize session data if it doesn't exist yet
+    if 'data' not in session:
+        session['data'] = None
+
     if request.method == 'POST':
         if 'file' in request.files:
             file = request.files['file']
             if file:
                 df = pd.read_excel(file)
                 session['data'] = df.to_dict(orient='list')
+                print("File uploaded and data stored in session")
         if 'num_men' in request.form and 'num_women' in request.form:
             num_men = int(request.form['num_men'])
             num_women = int(request.form['num_women'])
 
-        if 'data' in session:
+        if session['data'] is not None:
             df = pd.DataFrame(session['data'])
+            print(f"Data retrieved from session: {df}")
             selected_men_ids, selected_women_ids = process_selection(df, num_men, num_women)
 
     return render_template('index.html', selected_men_ids=selected_men_ids, selected_women_ids=selected_women_ids)
