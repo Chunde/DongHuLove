@@ -34,8 +34,10 @@ def index():
 
         if 'filename' in session:
             file_path = os.path.join(app.config['UPLOAD_FOLDER'], session['filename'])
+        else:
+            file_path = "uploads/default.xlsx"
             df = pd.read_excel(file_path)
-            print(f"Data retrieved from uploaded file: {df}")
+            # print(f"Data retrieved from uploaded file: {df}")
             selected_men_ids, selected_women_ids = process_selection(df, num_men, num_women)
 
     return render_template('index.html', selected_men_ids=selected_men_ids, selected_women_ids=selected_women_ids)
