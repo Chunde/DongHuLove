@@ -31,7 +31,6 @@
             border-radius: 5px;
             border: 1px solid #cc0000;
         }
-        /* Heart-shaped button styling */
         .heart-button {
             background-color: #cc0000;
             border: none;
@@ -70,6 +69,30 @@
         .heart-button:hover::after {
             transform: scale(1);
         }
+        .result-container {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 30px;
+        }
+        .result-column {
+            flex: 1;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .man-column {
+            background-color: #add8e6; /* Light blue */
+        }
+        .woman-column {
+            background-color: #ffc0cb; /* Light pink */
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            font-size: 20px;
+            margin: 5px 0;
+        }
     </style>
 </head>
 <body>
@@ -81,24 +104,29 @@
         <input type="number" id="num_men" name="num_men" min="1" value="3">
         <label for="num_women">女性数量:</label>
         <input type="number" id="num_women" name="num_women" min="1" value="3">
-        <!-- Heart-shaped button -->
         <button type="submit" class="heart-button">❤ 运行</button>
     </form>
     
     {% if selected_men_ids is not none and selected_women_ids is not none %}
     <h2>选择结果</h2>
-    <h3>男性ID:</h3>
-    <ul>
-        {% for id in selected_men_ids %}
-        <li>{{ id }}</li>
-        {% endfor %}
-    </ul>
-    <h3>女性ID:</h3>
-    <ul>
-        {% for id in selected_women_ids %}
-        <li>{{ id }}</li>
-        {% endfor %}
-    </ul>
+    <div class="result-container">
+        <div class="result-column man-column">
+            <h3>男性ID:</h3>
+            <ul>
+                {% for id in selected_men_ids %}
+                <li>{{ id }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="result-column woman-column">
+            <h3>女性ID:</h3>
+            <ul>
+                {% for id in selected_women_ids %}
+                <li>{{ id }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
     {% endif %}
 </body>
 </html>
